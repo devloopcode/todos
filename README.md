@@ -1,204 +1,210 @@
-Welcome to your new TanStack Start app! 
+# Todos
 
-# Getting Started
+A modern, full-stack task management application built with **React 19**, **Vite**, and the **TanStack ecosystem**. This project serves as a demonstration of best practices using TanStack Router, TanStack Start, and Tailwind CSS v4.
 
-To run this application:
+---
 
-```bash
-npm install
-npm run dev
-```
+## Tech Stack
 
-# Building For Production
+| Technology | Purpose |
+|---|---|
+| **React 19** | UI framework |
+| **Vite** | Build tool & dev server |
+| **TanStack Router** | Type-safe, file-based client-side routing |
+| **TanStack Start** | Full-stack server functions & SSR |
+| **Tailwind CSS v4** | Utility-first styling |
+| **TypeScript** | Strict type safety |
+| **Biome** | Linting & formatting |
+| **Vitest** | Unit testing |
+| **React Testing Library** | Component testing |
 
-To build this application for production:
+---
 
-```bash
-npm run build
-```
-
-## Testing
-
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
-
-```bash
-npm run test
-```
-
-## Styling
-
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
-
-### Removing Tailwind CSS
-
-If you prefer not to use Tailwind CSS:
-
-1. Remove the demo pages in `src/routes/demo/`
-2. Replace the Tailwind import in `src/styles.css` with your own styles
-3. Remove `tailwindcss()` from the plugins array in `vite.config.ts`
-4. Uninstall the packages: `npm install @tailwindcss/vite tailwindcss -D`
-
-## Linting & Formatting
-
-This project uses [Biome](https://biomejs.dev/) for linting and formatting. The following scripts are available:
-
+## Getting Started
 
 ```bash
-npm run lint
-npm run format
-npm run check
+npm install       # Install dependencies
+npm run dev       # Start dev server on http://localhost:3000
 ```
 
+## Available Scripts
 
-
-## Routing
-
-This project uses [TanStack Router](https://tanstack.com/router) with file-based routing. Routes are managed as files in `src/routes`.
-
-### Adding A Route
-
-To add a new route to your application just add a new file in the `./src/routes` directory.
-
-TanStack will automatically generate the content of the route file for you.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from "@tanstack/react-router";
+```bash
+npm run dev       # Start Vite dev server on port 3000
+npm run build     # Build for production
+npm run preview   # Preview production build
+npm run test      # Run Vitest test suite
+npm run lint      # Run Biome linter
+npm run format    # Run Biome formatter
+npm run check     # Run Biome lint + format check
 ```
 
-Then anywhere in your JSX you can use it like so:
+---
 
-```tsx
-<Link to="/about">About</Link>
+## Features
+
+### ✅ Core (MVP)
+
+- **Create todos** — Add new tasks to the list
+- **Edit todos** — Modify task titles inline
+- **Delete todos** — Remove tasks with a confirmation modal (`DeleteConfirmModal`)
+- **Toggle completion** — Mark tasks as done or undone
+- **File-based routing** — Clean URL structure powered by TanStack Router
+
+---
+
+## Planned Features
+
+### 1. 🔗 Type-Safe URL Filtering & Search
+> **TanStack Router — Search Params**
+
+Move filters and search terms into the URL so views are bookmarkable and shareable.
+
+- Filter by status: `?filter=active`, `?filter=completed`, `?filter=all`
+- Search by keyword: `?search=groceries`
+- Fully type-safe search params validated by TanStack Router's schema system
+- Shareable and deep-linkable filtered views
+
+**Why:** This demonstrates one of TanStack Router's most powerful differentiators — strictly typed URL search parameters with runtime validation.
+
+---
+
+### 2. ⚡ Optimistic UI Updates
+> **TanStack Query — Mutations**
+
+Update the UI immediately on user action before waiting for a server response. If the server call fails, automatically roll back.
+
+- Instant checkbox toggle feedback
+- Instant delete feedback
+- Automatic rollback on failure with user-visible error toast
+- Zero loading spinners for common mutations
+
+**Why:** Makes the app feel native-level fast. A flagship use case for TanStack Query's `onMutate` / `onError` / `onSettled` lifecycle.
+
+---
+
+### 3. 📄 Dynamic Todo Detail Routes
+> **TanStack Router — Dynamic Segments**
+
+Add a full detail page for each todo at `/todo/$todoId`.
+
+- Sub-tasks list inside a todo
+- Rich text notes / description field
+- Due date picker
+- Priority level (Low / Medium / High / Urgent)
+- Breadcrumb navigation back to the list
+- Loader pre-fetches todo data before the route renders
+
+**Why:** Introduces dynamic route segments, `loader` functions, and `Route.useLoaderData()` patterns from TanStack Router.
+
+---
+
+### 4. 🖥️ Server Functions & API Integration
+> **TanStack Start — Server Functions**
+
+Move all data mutations server-side using TanStack Start's `createServerFn`. Use a persistent backend (SQLite via Drizzle ORM, or a mock in-memory store).
+
+- `createServerFn` for `getTodos`, `createTodo`, `updateTodo`, `deleteTodo`
+- Server-side validation before writing to the database
+- Isomorphic data loading — same function works on server and client
+
+**Why:** Demonstrates full-stack React 19 capabilities and the TanStack Start server function model without a separate API layer.
+
+---
+
+### 5. 🏷️ Categories & Labels
+
+Organize todos using user-defined labels with color coding.
+
+- Create custom labels (e.g., "Work 🔵", "Personal 🟢", "Urgent 🔴")
+- Assign multiple labels to a single todo
+- Filter the list by label
+- Label chips displayed inline on each `TodoItem`
+- Labels persisted to backend
+
+**Why:** Adds relational data complexity (many-to-many: todos ↔ labels) that reflects real-world application data modeling.
+
+---
+
+### 6. 🖱️ Drag-and-Drop Reordering
+> **`@hello-pangea/dnd` or `dnd-kit`**
+
+Allow users to drag todos to manually reorder their list.
+
+- Drag handle on each `TodoItem`
+- Visual drop indicator while dragging
+- Optimistic reorder update (no spinner)
+- Persist new order to server after drop
+- Keyboard-accessible drag and drop (ARIA compliant)
+
+**Why:** A staple feature in premium task managers (Todoist, Linear, Notion) that tests complex state management and server sync.
+
+---
+
+### 7. 🌙 Dark Mode & Theming
+> **Tailwind CSS v4 — CSS Variables**
+
+Full dark mode support with system preference detection and a manual toggle.
+
+- Respects `prefers-color-scheme` on first load
+- Manual toggle stored in `localStorage`
+- Smooth transition between modes
+- All colors defined as CSS custom properties via Tailwind v4 theme tokens
+
+**Why:** Tailwind CSS v4 makes CSS-variable-based theming trivially easy and dark mode is an expected quality signal in modern apps.
+
+---
+
+### 8. 🔐 Authentication & Protected Routes
+> **TanStack Router — Route Guards & `beforeLoad`**
+
+Add a login flow with protected routes that redirect unauthenticated users.
+
+- `/login` — Email + password login form
+- `/register` — New account registration form
+- Route `beforeLoad` guard: redirects to `/login` if not authenticated
+- Session stored in a cookie (server-side) or `localStorage` (client-side)
+- Logout clears session and redirects to `/login`
+- User context available app-wide via React Context
+
+**Why:** Practices TanStack Router's `beforeLoad`, `redirect`, and context-passing patterns — core skills for any production application.
+
+---
+
+## Project Structure
+
+```
+src/
+├── routes/           # File-based routes (TanStack Router)
+│   ├── __root.tsx    # Root layout (HTML shell, nav)
+│   └── index.tsx     # Home route — todo list
+├── components/
+│   ├── ui/           # Generic reusable primitives
+│   ├── TodoItem.tsx
+│   └── DeleteConfirmModal.tsx
+├── constants/        # Centralized string literals and tokens
+├── types/            # Shared TypeScript interfaces
+└── utils/            # Pure utility functions
 ```
 
-This will create a link that will navigate to the `/about` route.
+---
 
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
+## Architecture Principles
 
-### Using A Layout
+- **Smart / Dumb split** — Routes own state and logic; UI components are pure and prop-driven.
+- **One component per file** — No barrel components or helpers mixed in.
+- **Constants centralization** — No inline string literals or magic numbers.
+- **Strict TypeScript** — `any` is forbidden; every prop and function is fully typed.
+- **Functional style** — `map`, `filter`, `reduce` over imperative loops; no direct state mutation.
 
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you render `{children}` in the `shellComponent`.
+---
 
-Here is an example layout that includes a header:
+## Learn More
 
-```tsx
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
-
-export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      { charSet: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'My App' },
-    ],
-  }),
-  shellComponent: ({ children }) => (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <header>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-          </nav>
-        </header>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  ),
-})
-```
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-## Server Functions
-
-TanStack Start provides server functions that allow you to write server-side code that seamlessly integrates with your client components.
-
-```tsx
-import { createServerFn } from '@tanstack/react-start'
-
-const getServerTime = createServerFn({
-  method: 'GET',
-}).handler(async () => {
-  return new Date().toISOString()
-})
-
-// Use in a component
-function MyComponent() {
-  const [time, setTime] = useState('')
-  
-  useEffect(() => {
-    getServerTime().then(setTime)
-  }, [])
-  
-  return <div>Server time: {time}</div>
-}
-```
-
-## API Routes
-
-You can create API routes by using the `server` property in your route definitions:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-import { json } from '@tanstack/react-start'
-
-export const Route = createFileRoute('/api/hello')({
-  server: {
-    handlers: {
-      GET: () => json({ message: 'Hello, World!' }),
-    },
-  },
-})
-```
-
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-
-export const Route = createFileRoute('/people')({
-  loader: async () => {
-    const response = await fetch('https://swapi.dev/api/people')
-    return response.json()
-  },
-  component: PeopleComponent,
-})
-
-function PeopleComponent() {
-  const data = Route.useLoaderData()
-  return (
-    <ul>
-      {data.results.map((person) => (
-        <li key={person.name}>{person.name}</li>
-      ))}
-    </ul>
-  )
-}
-```
-
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
-
-# Demo files
-
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
-
-For TanStack Start specific documentation, visit [TanStack Start](https://tanstack.com/start).
+- [TanStack Router](https://tanstack.com/router)
+- [TanStack Start](https://tanstack.com/start)
+- [TanStack Query](https://tanstack.com/query)
+- [Tailwind CSS v4](https://tailwindcss.com)
+- [Vite](https://vite.dev)
+- [Biome](https://biomejs.dev)
+- [Vitest](https://vitest.dev)
