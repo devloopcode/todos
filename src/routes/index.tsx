@@ -1,12 +1,12 @@
-import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { HardDrive, Plus } from "lucide-react";
+import { useState } from "react";
 import { TodoItem } from "#/components/TodoItem";
 import {
-	type Todo,
 	addTodo,
 	deleteTodo,
 	getTodos,
+	type Todo,
 	updateTodo,
 } from "#/lib/todos";
 
@@ -72,15 +72,15 @@ function SpaTodosPage() {
 				{/* SPA explanation panel */}
 				<div className="mt-4 p-3 rounded-xl border border-(--chip-line) bg-(--chip-bg) text-xs text-(--sea-ink-soft) space-y-1">
 					<p>
-						<strong className="text-(--sea-ink)">How SPA works here:</strong> the
-						server only delivers the HTML shell and JavaScript bundle. React boots
-						in your browser, reads <code>localStorage</code>, and renders the list
-						— entirely client-side, no server round-trips for data.
+						<strong className="text-(--sea-ink)">How SPA works here:</strong>{" "}
+						the server only delivers the HTML shell and JavaScript bundle. React
+						boots in your browser, reads <code>localStorage</code>, and renders
+						the list — entirely client-side, no server round-trips for data.
 					</p>
 					<p>
-						Todos are private to this browser and device. They persist across page
-						refreshes but are invisible to other tabs' network traffic (check
-						DevTools → Network — you'll see nothing for mutations).
+						Todos are private to this browser and device. They persist across
+						page refreshes but are invisible to other tabs' network traffic
+						(check DevTools → Network — you'll see nothing for mutations).
 					</p>
 				</div>
 			</section>
