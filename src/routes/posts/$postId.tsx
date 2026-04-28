@@ -45,13 +45,14 @@ function PostDetailPage() {
 		},
 	});
 
-	const deleteMutation = useMutation({
-		mutationFn: () => deletePost(id),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: POSTS_QUERY_KEY });
-			navigate({ to: "/posts" });
-		},
-	});
+	// const deleteMutation = useMutation({
+	// 	mutationFn: () => deletePost(id),
+	// 	onSuccess: () => {
+	// 		queryClient.invalidateQueries({ queryKey: POSTS_QUERY_KEY });
+	// 		navigate({ to: "/posts" });
+	// 	},
+	// });
+	const deleteMutation = () => navigate({ to: "/posts" });
 
 	const handleEditStart = () => {
 		setEditTitle(post?.title ?? "");
@@ -133,7 +134,7 @@ function PostDetailPage() {
 							>
 								<RefreshCw size={14} />
 							</button>
-							<button
+							{/* <button
 								type="button"
 								onClick={() => setShowDeleteModal(true)}
 								disabled={deleteMutation.isPending}
@@ -141,11 +142,24 @@ function PostDetailPage() {
 								aria-label="Delete post"
 							>
 								<Trash2 size={14} />
-							</button>
+							</button> */}
 						</div>
 					</div>
+					<button
+						type="button"
+						// onClick={handleEditStart}
+						className="text-left mb-6 group w-full"
+						aria-label="Click to edit title"
+					>
+						<h1 className="display-title text-2xl font-bold text-(--sea-ink) capitalize group-hover:text-(--lagoon) transition-colors">
+							{post.title}
+						</h1>
+						{/* <span className="text-xs text-(--sea-ink-soft) mt-0.5 block">
+							click to edit title
+						</span> */}
+					</button>
 
-					{isEditing ? (
+					{/* {isEditing ? (
 						<div className="mb-6">
 							<input
 								// biome-ignore lint/a11y/noAutofocus: user explicitly triggered edit mode
@@ -195,7 +209,7 @@ function PostDetailPage() {
 								click to edit title
 							</span>
 						</button>
-					)}
+					)} */}
 
 					<p className="text-sm text-(--sea-ink-soft) leading-relaxed">
 						{post.body}
@@ -212,7 +226,8 @@ function PostDetailPage() {
 					todoText={post.title}
 					onConfirm={() => {
 						setShowDeleteModal(false);
-						deleteMutation.mutate();
+						// deleteMutation.mutate();
+						deleteMutation();
 					}}
 					onCancel={() => setShowDeleteModal(false)}
 				/>
