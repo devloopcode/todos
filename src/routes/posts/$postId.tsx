@@ -1,15 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, RefreshCw, Trash2 } from "lucide-react";
+import { ArrowLeft, RefreshCw } from "lucide-react";
 import { useState } from "react";
 import { DeleteConfirmModal } from "#/components/DeleteConfirmModal";
-import {
-	deletePost,
-	fetchPost,
-	POSTS_QUERY_KEY,
-	postQueryKey,
-	updatePostTitle,
-} from "#/lib/posts";
+import { fetchPost, postQueryKey } from "#/lib/posts";
 
 export const Route = createFileRoute("/posts/$postId")({
 	component: PostDetailPage,
@@ -18,11 +12,11 @@ export const Route = createFileRoute("/posts/$postId")({
 function PostDetailPage() {
 	const { postId } = Route.useParams();
 	const id = Number(postId);
-	const queryClient = useQueryClient();
+	// const queryClient = useQueryClient();
 	const navigate = useNavigate();
 
-	const [isEditing, setIsEditing] = useState(false);
-	const [editTitle, setEditTitle] = useState("");
+	// const [isEditing, setIsEditing] = useState(false);
+	// const [editTitle, setEditTitle] = useState("");
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
 	const {
@@ -36,14 +30,14 @@ function PostDetailPage() {
 		queryFn: () => fetchPost(id),
 	});
 
-	const updateMutation = useMutation({
-		mutationFn: (title: string) => updatePostTitle(id, title),
-		onSuccess: (updated) => {
-			queryClient.setQueryData(postQueryKey(id), updated);
-			queryClient.invalidateQueries({ queryKey: POSTS_QUERY_KEY });
-			setIsEditing(false);
-		},
-	});
+	// const updateMutation = useMutation({
+	// 	mutationFn: (title: string) => updatePostTitle(id, title),
+	// 	onSuccess: (updated) => {
+	// 		queryClient.setQueryData(postQueryKey(id), updated);
+	// 		queryClient.invalidateQueries({ queryKey: POSTS_QUERY_KEY });
+	// 		setIsEditing(false);
+	// 	},
+	// });
 
 	// const deleteMutation = useMutation({
 	// 	mutationFn: () => deletePost(id),
@@ -54,19 +48,19 @@ function PostDetailPage() {
 	// });
 	const deleteMutation = () => navigate({ to: "/posts" });
 
-	const handleEditStart = () => {
-		setEditTitle(post?.title ?? "");
-		setIsEditing(true);
-	};
+	// const handleEditStart = () => {
+	// 	setEditTitle(post?.title ?? "");
+	// 	setIsEditing(true);
+	// };
 
-	const handleSave = () => {
-		const trimmed = editTitle.trim();
-		if (trimmed && trimmed !== post?.title) {
-			updateMutation.mutate(trimmed);
-		} else {
-			setIsEditing(false);
-		}
-	};
+	// const handleSave = () => {
+	// 	const trimmed = editTitle.trim();
+	// 	if (trimmed && trimmed !== post?.title) {
+	// 		updateMutation.mutate(trimmed);
+	// 	} else {
+	// 		setIsEditing(false);
+	// 	}
+	// };
 
 	return (
 		<main className="page-wrap px-4 pb-8 pt-14">

@@ -168,51 +168,58 @@ function PostsPage() {
 			)}
 
 			{postsData && (
-				<ul className="space-y-2">
+				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 					{postsData.map((post) => (
-						<li
+						<div
 							key={post.id}
-							className="flex items-center island-shell gap-2 w-full border border-(--line) hover:border-(--lagoon) rounded-xl px-2"
+							className="island-shell border border-(--line) hover:border-(--lagoon) rounded-2xl p-4 flex flex-col gap-3 transition-colors"
 						>
+							<div className="flex items-center justify-between gap-2">
+								<span className="text-xs font-mono text-(--sea-ink-soft) bg-(--surface) rounded-lg px-2 py-1">
+									#{post.id}
+								</span>
+								<div className="flex items-center gap-1">
+									<button
+										type="button"
+										onClick={() => {
+											setTarget(post);
+											setShowEditModal(true);
+										}}
+										className="size-7 rounded-lg flex items-center justify-center text-(--sea-ink-soft) hover:bg-(--surface) hover:text-blue-500 cursor-pointer"
+									>
+										<Pen size={13} />
+									</button>
+									<button
+										type="button"
+										onClick={() => {
+											setTarget(post);
+											setShowDeleteModal(true);
+										}}
+										className="size-7 rounded-lg flex items-center justify-center text-(--sea-ink-soft) hover:bg-(--surface) hover:text-red-500 cursor-pointer"
+										aria-label="Delete post"
+									>
+										<Trash2 size={13} />
+									</button>
+								</div>
+							</div>
+							<div className="flex flex-col gap-1 grow">
+								<h2 className="text-sm font-semibold text-(--sea-ink) capitalize leading-snug line-clamp-2">
+									{post.title}
+								</h2>
+								<p className="text-xs text-(--sea-ink-soft) leading-relaxed line-clamp-2">
+									{post.body}
+								</p>
+							</div>
 							<Link
 								to="/posts/$postId"
 								params={{ postId: String(post.id) }}
-								className="p-2 flex items-center gap-3 grow min-w-0"
+								className="text-xs font-semibold text-(--palm) hover:underline self-start mt-auto"
 							>
-								<span className="text-xs font-mono text-(--sea-ink-soft) w-8 shrink-0">
-									#{post.id}
-								</span>
-								<span className="text-lg text-(--sea-ink-soft)">|</span>
-								<span className="text-xs sm:text-sm text-(--sea-ink) capitalize truncate">
-									{post.title}
-								</span>
+								View post →
 							</Link>
-							<button
-								type="button"
-								onClick={() => {
-									// setPostsData(postsData.filter((p) => p.id !== post.id))
-									setTarget(post);
-									setShowDeleteModal(true);
-								}}
-								className="size-8 rounded-lg flex items-center justify-center text-(--sea-ink-soft) hover:bg-(--surface) hover:text-red-500 cursor-pointer disabled:opacity-40"
-								aria-label="Delete post"
-							>
-								<Trash2 size={14} />
-							</button>
-							{/* update */}
-							<button
-								type="button"
-								onClick={() => {
-									setTarget(post);
-									setShowEditModal(true);
-								}}
-								className="size-8 rounded-lg flex items-center justify-center text-(--sea-ink-soft) hover:bg-(--surface) hover:text-blue-500 cursor-pointer disabled:opacity-40"
-							>
-								<Pen size={14} />
-							</button>
-						</li>
+						</div>
 					))}
-				</ul>
+				</div>
 			)}
 		</main>
 	);

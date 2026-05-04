@@ -61,7 +61,7 @@ export function DeleteConfirmModal({ todoText, onConfirm, onCancel }: Props) {
 				onAnimationEnd={handleAnimationEnd}
 			>
 				{/* Red accent strip */}
-				<div className="h-1 bg-gradient-to-r from-red-400 via-red-500 to-rose-400" />
+				<div className="h-1 bg-linear-to-r from-red-400 via-red-500 to-rose-400" />
 
 				<div className="p-6">
 					{/* Icon */}
